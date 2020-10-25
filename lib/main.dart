@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_my_app/test/test_page.dart';
+import 'test/test_page.dart';
+import 'test/test_page_1.dart';
+import 'test/test_tabbar_page.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -10,6 +13,12 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() => _MyAppState();
 }
 
+final routeMap = {
+  "/test": (context) => TestPage(),
+  "/testPage1": (context) => TestPage1(),
+  "/testTabBarPage": (context) => TestTabBarPage(),
+};
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.purple,
       ),
       home: MyHomePage(title: 'Flutter Tory'),
-      routes: {"/test": (context) => TestPage()},
+      routes: routeMap,
     );
   }
 }
@@ -49,31 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
+      body: Container(
+        padding: EdgeInsets.only(top: 10),
+        child: ListView.builder(
+          itemCount: routeMap.length,
+          itemBuilder: _buildRoutItem,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -81,6 +74,23 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  final routePaths = routeMap.keys.toList();
+
+  Widget _buildRoutItem(BuildContext context, int index) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      child: InkWell(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          child: Text(routePaths[index]),
+        ),
+        onTap: () {
+          Navigator.of(context).pushNamed(routePaths[index]);
+        },
+      ),
     );
   }
 }
