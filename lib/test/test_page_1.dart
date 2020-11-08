@@ -6,8 +6,6 @@ class TestPage1 extends StatefulWidget {
 }
 
 class _TestPage1State extends State<TestPage1> {
-  bool _isFavorite = false;
-  int _favoriteCount = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -52,19 +50,7 @@ class _TestPage1State extends State<TestPage1> {
               ],
             ),
           ),
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(_isFavorite ? Icons.star : Icons.star_border,
-                      color: _isFavorite ? Colors.red[500] : Colors.grey[500]),
-                  Text("$_favoriteCount"),
-                ],
-              ),
-            ),
-            onTap: _toggleFavorite,
-          )
+          FavoriteWidget()
         ],
       ),
     );
@@ -114,11 +100,41 @@ class _TestPage1State extends State<TestPage1> {
           softWrap: true,
         ),
       );
+}
+
+class FavoriteWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _FavoriteState();
+
+}
+
+class _FavoriteState extends State<FavoriteWidget> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Icon(_isFavorited ? Icons.star : Icons.star_border,
+                color: _isFavorited ? Colors.red[500] : Colors.grey[500]),
+            Container(child: Text("$_favoriteCount"), width: 18,),
+          ],
+        ),
+      ),
+      onTap: _toggleFavorite,
+    );
+  }
 
   _toggleFavorite() {
     setState(() {
-      _isFavorite = !_isFavorite;
-      _favoriteCount = _favoriteCount + (_isFavorite ? 1 : -1);
+      _isFavorited = !_isFavorited;
+      _favoriteCount = _favoriteCount + (_isFavorited ? 1 : -1);
     });
   }
+
 }

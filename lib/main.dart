@@ -3,7 +3,6 @@ import 'test/test_page.dart';
 import 'test/test_page_1.dart';
 import 'test/test_tabbar_page.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -70,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {Navigator.of(context).pushNamed('/test')},
+        onPressed: () => {Navigator.of(context).pushNamed('/test', arguments: {"src": "home"})},
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
