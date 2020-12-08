@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_my_app/redux/redux_state.dart';
 import 'test/test_page.dart';
 import 'test/test_page_1.dart';
 import 'test/test_tabbar_page.dart';
+import 'package:redux/redux.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+
+class FlutterReduxApp extends StatelessWidget {
+  final store = new Store<ReduxState>(
+    appReducer,
+    initialState: new ReduxState(
+      themeData: new ThemeData(primarySwatch: Colors.purple),
+        locale: Locale('zh', 'CH')),
+    )
+  )
+
+  @override
+  Widget build(BuildContext context) {
+    return new StoreProvider(
+      store: store,
+      child: MyApp()
+    )
+  }
+
 }
 
 class MyApp extends StatefulWidget {
